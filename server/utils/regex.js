@@ -1,0 +1,1 @@
+export const escapeRegex = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
