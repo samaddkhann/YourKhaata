@@ -39,6 +39,7 @@ const app = express()
 // Render puts one proxy in front of this server
 app.set("trust proxy", 1)
 
+<<<<<<< HEAD
 app.use(helmet({
     // Google login needs many Google addresses, and a mistake in a strict policy would break
     // login, so this one header is off. The other helmet protections stay on.
@@ -46,6 +47,12 @@ app.use(helmet({
     // Lets the Google login popup talk to this page
     crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" },
     referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+=======
+app.use(helmet())
+app.use(cors({
+    origin: "https://yourkhaata-g9wt.onrender.com",
+    credentials: true
+>>>>>>> ca9cbd9e3d7e33fbcb6681d865d623ab889a4254
 }))
 
 // Only needed while developing (website on port 5173, server on port 8000)
