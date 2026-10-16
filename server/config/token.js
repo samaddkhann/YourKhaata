@@ -8,11 +8,15 @@ const genToken = (userId) => {
     })
 }
 
-// Same cookie settings are used for login and logout
+// Render sets RENDER=true by itself, so this works even if NODE_ENV was not set.
+const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER === "true"
+
+// Website and server are on two different addresses, so online the cookie
+// must be SameSite=None and Secure. On your computer it stays simple.
 export const cookieOptions = {
-    httpOnly: true, // JavaScript in the browser cannot read this cookie
-    secure: process.env.NODE_ENV === "production", // HTTPS only in production
-    sameSite: "lax",
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
 }
 
