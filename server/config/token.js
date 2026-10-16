@@ -8,13 +8,11 @@ const genToken = (userId) => {
     })
 }
 
-const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER === "true"
-
 // Same cookie settings are used for login and logout
 export const cookieOptions = {
     httpOnly: true, // JavaScript in the browser cannot read this cookie
-    secure: isProduction, // HTTPS only when deployed
-    sameSite: "lax", // fine now, because the website and server share one address
+    secure: process.env.NODE_ENV === "production", // HTTPS only in production
+    sameSite: "lax",
     maxAge: 7 * 24 * 60 * 60 * 1000,
 }
 
