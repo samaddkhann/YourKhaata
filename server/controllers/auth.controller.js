@@ -16,6 +16,7 @@ export const firebaseAuth = async (req, res) => {
         try {
             decoded = await adminAuth.verifyIdToken(idToken)
         } catch (error) {
+            console.log("verifyIdToken failed:", error.code, error.message)
             return res.status(401).json({ message: "Invalid or expired login. Please sign in again" })
         }
 
@@ -55,7 +56,8 @@ export const firebaseAuth = async (req, res) => {
         const token = genToken(user._id)
         res.cookie("token", token, cookieOptions)
 
-        return res.status(200).json(user)
+        // The token is also sent in the reply, for browsers that block cross-site cookies
+        return res.status(200).json({ ...user.toObject(), token })
     } catch (error) {
         console.log("firebaseAuth error:", error)
         return res.status(500).json({ message: "Login failed. Please try again" })
