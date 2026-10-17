@@ -2,7 +2,10 @@ import jwt from "jsonwebtoken"
 
 const isAuth = (req, res, next) => {
     try {
-        const { token } = req.cookies
+        // Safari and iPhone send the token as a header. Other browsers can use the cookie.
+        const header = req.headers.authorization || ""
+        const bearerToken = header.startsWith("Bearer ") ? header.slice(7).trim() : ""
+        const token = bearerToken || req.cookies?.token
 
         if (!token) {
             return res.status(401).json({ message: "Please login first" })
